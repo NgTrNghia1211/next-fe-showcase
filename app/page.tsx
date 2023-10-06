@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Hero } from '@/components' 
+import { Hero, SearchBar, CustomFilter } from '@/components' 
 
 export default function Home() {
   return (
