@@ -1,9 +1,18 @@
 import Image from 'next/image'
-import { Hero, SearchBar, CustomFilter, CarCard } from '@/components' 
+import { Hero, SearchBar, CustomFilter, CarCard, ShowMore } from '@/components' 
 import { fetchCar } from '@/utils'
+import { FilterProps } from '@/types';
+import { fuels, yearsOfProduction } from '@/constants';
 
-export default async function Home() {
-  const allCars = await fetchCar();
+export default async function Home({ searchParams }) {
+  const allCars = await fetchCar(
+    {
+      manufacturer: searchParams.manufacturer || "",
+      model: searchParams.model || "q3",
+      year: searchParams.year || 2022,
+      fuel: searchParams.fuel || "",
+    }
+  );
 
   const isDataEmpty = !Array.isArray(allCars) || allCars.length === 0 || !allCars
 
@@ -19,14 +28,16 @@ export default async function Home() {
 
         <div className="home_filters">
           <SearchBar />
-          <div className="home_filter-container">
+          {/* <div className="home_filter-container">
             <CustomFilter 
               title="fuel"
+              options={fuels}
             />
             <CustomFilter 
               title="year"
+              options={yearsOfProduction}
             />
-          </div>
+          </div> */}
         </div>
 
         {!isDataEmpty ? (
@@ -34,6 +45,11 @@ export default async function Home() {
             <div className='home__cars-wrapper'>
               {allCars?.map((car) => (<CarCard car={car} key={car}/>))}
             </div>
+
+            <ShowMore 
+              pageNumber={(searchParams.pageNumber || 10) / 10}
+              isNext={(searchParams.limit || 10) > allCars.length}
+            />
           </section>
         ) : (
           <div className='home__error-container' > 

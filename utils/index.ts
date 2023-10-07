@@ -1,12 +1,19 @@
-import { CarCardProps } from "@/types";
+import { CarCardProps, FilterProps } from "@/types";
 
 const axios = require('axios');
 
-export async function fetchCar() {
+export async function fetchCar(filter: FilterProps) {
+    const { manufacturer, year, model, fuel } = filter;
+
     const options = {
         method: 'GET',
         url: 'https://cars-by-api-ninjas.p.rapidapi.com/v1/cars',
-        params: {model: 'camry'},
+        params: {
+          model: model,
+          manufacturer: manufacturer,
+          year: year,
+          fuel: fuel,
+        },
         headers: {
           'X-RapidAPI-Key': '0ea7fd0354msheb6b4d6844fdb48p16d6f9jsn92d58739dcd4',
           'X-RapidAPI-Host': 'cars-by-api-ninjas.p.rapidapi.com'
@@ -42,6 +49,13 @@ export const calculatingCarRent = (city_mpg: number, year: number) => {
 
   // Return the total rental price of the car.
   return totalPrice;
+}
+
+export const updateSearchParams = (type: string, value: string) => {
+  const searchParams = new URLSearchParams(window.location.search);
+  searchParams.set(type, value);
+  const newPathName = `${window.location.pathname}?${searchParams.toString()}`;
+  return newPathName;
 }
 
 // export const generateCarImage = (car: CarCardProps, angle: string) => {
