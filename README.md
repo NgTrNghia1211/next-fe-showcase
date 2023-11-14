@@ -38,3 +38,33 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ## Other Libraries or Technologies
 
 - headlessui.com
+
+## Review React
+
+### React Hook:
+
+- Help function components to do what class components can do
+- When using hook, pleas consider
+  - Name
+  - Parameters
+  - Return
+  - Usage
+- Life Cycle:
+  - `Add To DOM` -> `Remove From DOM`
+
+### List of Hook:
+
+- **useState():** Reduce complexity _in changing UI based on changing data_
+
+  - State of Data
+
+```javascript
+const [state, setState] = useState(initialState);
+/*
+	Lifecycle rules:
+	1. Component will be rerendered after setState()
+	2. setState with callback
+		setState(prevState => {}): instead of doing all tasks then rerender -> setState for state, 
+		This allows after setState done, the prevState is updated
+*/
+```
